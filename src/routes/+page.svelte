@@ -1,6 +1,9 @@
 <script lang="ts">
-	const cells = new Array(9).fill(-1);
-	let activePlayer = 0;
+	import { NO_WINNER } from "$lib/constants";
+	import type { CellState, Player } from "$lib/types";
+
+	const cells: CellState[] = new Array(9).fill(NO_WINNER);
+	let activePlayer: Player = 0;
 
 	const handleTurn = (cellIndex: number) => (_: MouseEvent) => {
 		cells[cellIndex] = activePlayer;
@@ -10,7 +13,7 @@
 
 <div class="game-container">
 	{#each cells as cell, i}
-		<button class="cell" class:circle={cell === 0} on:click={handleTurn(i)}></button>
+		<button class="cell" class:circle={cell === 0} class:cross={cell === 1} on:click={handleTurn(i)}></button>
 	{/each}
 </div>
 
@@ -49,8 +52,25 @@
 	}
 
 	.cell.circle::after {
-		width: calc(var(--game-size) / 7);
-		height: calc(var(--game-size) / 7);
+		width: calc(var(--game-size) / 8);
+		height: calc(var(--game-size) / 8);
 		background-color: hsl(0, 0%, 100%);
 	}
+
+	.cell.cross::before,
+	.cell.cross::after {
+		content: '';
+		position: absolute;
+		background-color: hsl(0, 0%, 20%);
+		height: calc(var(--game-size) / 5);
+		width: calc(var(--game-size) / 25);
+	}
+
+	.cell.cross::before {
+		transform: rotate(45deg);
+	}
+
+	.cell.cross::after {
+		transform: rotate(-45deg);
+	}	
 </style>
