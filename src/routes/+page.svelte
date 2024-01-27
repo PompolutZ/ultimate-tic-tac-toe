@@ -32,11 +32,7 @@
 		{/each}
 	</div>
 
-	{#if winner > NO_WINNER}
-		<div class="game-result-overlay">
-			<GameResultOverlay {winner} />
-		</div>
-	{/if}
+	<GameResultOverlay {winner} />
 </div>
 
 <style>
@@ -49,17 +45,8 @@
 		height: var(--game-size);
 	}
 
-	.game-result-overlay,
 	.game-container {
 		grid-area: 1 / 1 / -1 / -1;
-	}
-
-	.game-result-overlay {
-		display: grid;
-		place-content: center;
-		background-color: hsla(0, 0%, 0%, 0.9);
-		color: hsla(0, 0%, 100%, 1);
-		z-index: 1;
 	}
 
 	.game-container {
