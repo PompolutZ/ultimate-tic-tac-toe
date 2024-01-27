@@ -1,0 +1,22 @@
+{
+    "name": "Node.js & TypeScript",
+    "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bullseye",
+    "features": {
+        "ghcr.io/devcontainers-contrib/features/pnpm:2": {},
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "svelte.svelte-vscode",
+				"github.copilot",
+				"patbenatar.advanced-new-file",
+				"esbenp.prettier-vscode"
+            ]
+        }
+    },
+    "mounts": [
+		"source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume",
+		"source=${localWorkspaceFolderBasename}-.pnpm-store,target=${containerWorkspaceFolder}/.pnpm-store,type=volume"
+	],
+    "postCreateCommand": "sudo chown node node_modules .pnpm-store"
+}
