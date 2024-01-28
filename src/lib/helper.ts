@@ -1,6 +1,9 @@
 import { NO_WINNER } from './constants';
 import type { Board, GameState } from './types';
 
+export const initGameBoard = (): Board[] =>
+	new Array(9).fill(-1).map(() => new Array(9).fill(NO_WINNER));
+
 export const checkWin = (board: Board): GameState => {
 	// Define winning combinations
 	const lines = [

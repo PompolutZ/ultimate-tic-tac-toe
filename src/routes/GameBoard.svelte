@@ -1,11 +1,15 @@
 <script lang="ts">
-	import type { CellState } from '$lib/types';
+	import type { CellState, Player } from '$lib/types';
+	import { NO_WINNER } from '$lib/constants';
+	import { checkWin } from '$lib/helper';
 
+    export let isActiveBoard: boolean;
 	export let cells: CellState[];
 	export let handleTurn: (cellIndex: number) => (e: MouseEvent) => void;
+    const checkIsFinished = () => checkWin(cells) > NO_WINNER;
 </script>
 
-<div class="game-container">
+<div class="game-container" class:is-active={isActiveBoard && !checkIsFinished()}>
 	{#each cells as cell, i}
 		<button
 			class="cell"
@@ -19,22 +23,27 @@
 <style>
 	.game-container {
 		display: grid;
-		grid-area: 1 / 1 / -1 / -1;
-		background-color: hsl(0, 0%, 20%);
 		grid-template-columns: repeat(3, 1fr);
 		grid-template-rows: repeat(3, 1fr);
 		gap: 1px;
 		min-width: 35px;
 		min-height: 35px;
 	}
+    .game-container:not(.is-active) {
+        pointer-events: none;
+    }
 
-	.cell {
-		background-color: hsl(0, 0%, 100%);
-		border: none;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
+    .cell {
+        background-color: hsl(0, 0%, 100%);
+        border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .game-container:not(.is-active) .cell {
+        background-color: hsl(0, 0%, 80%);
+    }
 
 	.cell.circle,
 	.cell.cross {
@@ -49,14 +58,18 @@
 	}
 
 	.cell.circle::before {
-		width: calc(var(--game-size) / 5);
-		height: calc(var(--game-size) / 5);
+		width: calc(var(--game-size) / 11);
+		height: calc(var(--game-size) / 11);
 		background-color: hsl(0, 0%, 20%);
 	}
 
+    .cell:hover.cell.circle::before {
+        background-color: hsl(0, 0%, 30%);
+    }
+
 	.cell.circle::after {
-		width: calc(var(--game-size) / 8);
-		height: calc(var(--game-size) / 8);
+		width: calc(var(--game-size) /15);
+		height: calc(var(--game-size) / 15);
 		background-color: hsl(0, 0%, 100%);
 	}
 
@@ -65,8 +78,8 @@
 		content: '';
 		position: absolute;
 		background-color: hsl(0, 0%, 20%);
-		height: calc(var(--game-size) / 5);
-		width: calc(var(--game-size) / 25);
+		height: calc(var(--game-size) / 11);
+		width: calc(var(--game-size) / 57);
 	}
 
 	.cell.cross::before {
