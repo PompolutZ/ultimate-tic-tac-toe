@@ -8,7 +8,13 @@
 
 <style>
 	:root {
-		--game-size: 90vw;
+		--game-size: 90vmin;
+	}
+
+	@media (min-width: 601px) {
+		:root {
+			--game-size: 50vmin;
+		}
 	}
 
 	.app {

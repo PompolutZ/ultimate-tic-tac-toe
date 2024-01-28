@@ -68,6 +68,10 @@
 		align-items: center;
 	}
 
+	.cell.circle, .cell.cross {
+		pointer-events: none;
+	}
+
 	.cell.circle::before,
 	.cell.circle::after {
 		content: '';
