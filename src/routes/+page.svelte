@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { NO_WINNER } from '$lib/constants';
-	import type { Board, CellState, GameState, Player } from '$lib/types';
+	import type { Board, GameState, Player } from '$lib/types';
 	import { checkWin, initGameBoard } from '$lib/helper';
 	import GameResultOverlay from './GameResultOverlay.svelte';
 	import GameBoard from './GameBoard.svelte';
 
-	const cells: CellState[] = new Array(9).fill(NO_WINNER);
-	const boards = initGameBoard();
+	let boards = initGameBoard();
 	let activePlayer: Player = 0;
 	let winner: GameState = NO_WINNER;
 	let gameBoardResults: GameState[] = new Array(9).fill(NO_WINNER);
@@ -27,6 +26,13 @@
 		activePlayer ^= 1; // Love XOR!...
 		nextBoardToPlay = checkWin(boards[cellIndex]) > NO_WINNER ? NO_WINNER : cellIndex;
 	};
+
+	const restart = () => {
+		boards = initGameBoard();
+		gameBoardResults.fill(NO_WINNER);
+		winner = NO_WINNER;
+		nextBoardToPlay = NO_WINNER;
+	};
 </script>
 
 <div class="container">
@@ -42,8 +48,9 @@
 	<GameResultOverlay {winner} />
 </div>
 
-<div class="active-player">
+<div class="info">
 	Current player: {activePlayer === 0 ? 'O' : 'X'}
+	<button class="restart" on:click={restart}>Play again!</button>
 </div>
 
 <style>
@@ -65,7 +72,28 @@
 		grid-area: 1 / 1 / -1 / -1;
 	}
 
-	.active-player {
+	.info {
 		margin: 1rem auto;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		gap: 1.5rem;
+		margin-top: 1.5rem;
+	}
+
+	.restart {
+		border: 0;
+		border-radius: 0.75rem;
+		cursor: pointer;
+		box-shadow: -6px 6px var(--darkblue);
+		background-color: var(--blue);
+		margin: auto;
+		padding: 8px 24px;
+		transform: rotate(-3deg);
+	}
+
+	.restart:active {
+		box-shadow: -3px 3px var(--darkblue);
+		transform: translate(-3px, 3px) rotate(-3deg);
 	}
 </style>

@@ -34,7 +34,7 @@
     }
 
     .cell {
-        background-color: hsl(0, 0%, 100%);
+        background-color: var(--blue);
         border: none;
         display: flex;
         justify-content: center;
@@ -42,7 +42,7 @@
     }
 
     .game-container:not(.is-active) .cell {
-        background-color: hsl(0, 0%, 80%);
+        background-color: var(--darkblue);
     }
 
 	.cell.circle,
@@ -70,7 +70,11 @@
 	.cell.circle::after {
 		width: calc(var(--game-size) /15);
 		height: calc(var(--game-size) / 15);
-		background-color: hsl(0, 0%, 100%);
+		background-color: var(--blue);
+	}
+
+	.game-container:not(.is-active) .cell.circle::after {
+		background-color: var(--darkblue);
 	}
 
 	.cell.cross::before,
